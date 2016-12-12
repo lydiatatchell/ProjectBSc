@@ -1,0 +1,3 @@
+C:/Users/lydia/Desktop/ProjectBSc/cmake-build-debug/CMakeFiles/ProjectBSc.dir
+C:/Users/lydia/Desktop/ProjectBSc/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/lydia/Desktop/ProjectBSc/cmake-build-debug/CMakeFiles/rebuild_cache.dir

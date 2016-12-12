@@ -3,5 +3,5 @@ project(ProjectBSc)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(SOURCE_FILES main.cpp cmake-build-debug/main.cpp)
+set(SOURCE_FILES main.cpp)
 add_executable(ProjectBSc ${SOURCE_FILES})

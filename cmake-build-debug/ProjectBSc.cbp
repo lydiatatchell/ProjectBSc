@@ -82,7 +82,7 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="C:/Users/lydia/Desktop/ProjectBSc/cmake-build-debug/main.cpp">
+		<Unit filename="C:/Users/lydia/Desktop/ProjectBSc/main.cpp">
 			<Option target="ProjectBSc"/>
 		</Unit>
 		<Unit filename="C:/Users/lydia/Desktop/ProjectBSc/CMakeLists.txt">

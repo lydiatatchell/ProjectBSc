@@ -1,0 +1,8 @@
+//
+// Created by lydia on 12/12/2016.
+//
+
+#ifndef BSCPROJECT_CONSTANTS_H
+#define BSCPROJECT_CONSTANTS_H
+
+#endif //BSCPROJECT_CONSTANTS_H
