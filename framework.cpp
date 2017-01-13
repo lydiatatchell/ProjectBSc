@@ -66,7 +66,7 @@ int main()
     size_t N = 128;       // Number of radial bins
     double rMin = 0.4;    // Inner radius
     double rMax = 2.5;    // Outer radius
-    double visc = 1.0e-5; // Viscosity
+    double visc = 1.0*pow(10,-5); // Viscosity
     double maxT = 100.0;  // Maximum simulation time
     double dt = 0.01;     // Time step
 
@@ -94,6 +94,11 @@ int main()
     for (int i = 0; i < N; i++)
         output_file << radii[i] << " " << sdens[i] << std::endl;
     output_file.close();
+
+    cout << dt << endl;
+    cout << sdens << endl;
+    cout << i << endl;
+    cout << i << endl;
 
     return 0;
 }
