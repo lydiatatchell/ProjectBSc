@@ -3,6 +3,7 @@
 #include <vector>
 #include <fstream>
 #include <cmath>
+#include <cstdlib>
 
 using namespace std;
 
@@ -28,6 +29,7 @@ using namespace std;
                 sqrt(radii[N - 1])*(sdens[N - 1]*sqrt(radii[N - 1]) -
                                     sdens[N - 2]*sqrt(radii[N - 2]))/
                 (radii[N - 1] - radii[N - 2]);
+
 
         // fdens = (3*visc/R)*d/dr(temp)
         fdens[0] = (3.0*visc/radii[0])*(temp[1] - temp[0])/(radii[1] - radii[0]);
@@ -56,6 +58,7 @@ using namespace std;
         for (int i = 0; i < N; i++)
             sdens[i] += dt*fdens[i];
     }
+
 
 //#############################################################################
 // Main function
@@ -89,13 +92,23 @@ using namespace std;
             t += dt;
         }
 
+    while (t < maxT) {
+        CalcFdens(radii, sdens, fdens, visc);
+        N += 1;
+    }
+
 
         // Output result to text file
         std::ofstream output_file("./output.txt");
         for (int i = 0; i < N; i++)
-            output_file << radii[i] << " " << sdens[i] << std::endl;
-        output_file.close();
+            output_file << radii[i] << " " << sdens[i] << " " << CalcFdens << std::endl;
+        output_file.close(); //outputs radius of disc and surface area to text file
 
+        //adding a planet to the mix *internal screaming*
+
+        //why god why did i agree to this HOLY SHIT
+
+        //wait first I have to put the whole equation thingy together argghhghghghg
 
 
 
