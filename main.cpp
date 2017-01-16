@@ -30,6 +30,7 @@ using namespace std;
                                     sdens[N - 2]*sqrt(radii[N - 2]))/
                 (radii[N - 1] - radii[N - 2]);
 
+        {
         /*lambda = rate of angular momentum per unit mass by tidal interaction
          * = sgn(R - Rj)*((0.23((Mj/Ms)^2)*G*Ms)/2R)*(R/|R-Rj|)*/
         double lambda;
@@ -37,11 +38,12 @@ using namespace std;
         int M = 1.99e30;
         int Rj = 7.786e8;
         int k = radii[0] - Rj;
-        double g = 6.67e-11;
+        double g = 6.67e-11;}
 
-
-
-
+//change all units to be in AU EVERYTHING not just the orbital radii
+//change masses to Msun (so star is just 1)
+        //grav const defined as 1
+        //
 
         // fdens = (3*visc/R)*d/dr(temp)
         fdens[0] = (3.0*visc/radii[0])*(temp[1] - temp[0])/(radii[1] - radii[0]);
@@ -115,12 +117,6 @@ using namespace std;
         for (int i = 0; i < N; i++)
             output_file << radii[i] << " " << sdens[i] << " " << CalcFdens << std::endl;
         output_file.close(); //outputs radius of disc and surface area to text file
-
-        //adding a planet to the mix *internal screaming*
-
-        //why god why did i agree to this HOLY SHIT
-
-        //wait first I have to put the whole equation thingy together argghhghghghg
 
 
 
