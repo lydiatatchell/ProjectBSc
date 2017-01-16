@@ -11,7 +11,8 @@ using namespace std;
     void CalcFdens(std::vector<double> radii,//R
                    std::vector<double> sdens,//sigma
                    std::vector<double> fdens,//dSigma (???)
-                   double visc)
+                   std::vector<double> lambda,
+                   double visc)//viscosity
     {
         size_t N = radii.size();        // Size of vectors
         std::vector<double> temp(N);    // Temporary vector
@@ -31,19 +32,8 @@ using namespace std;
                 (radii[N - 1] - radii[N - 2]);
 
         {
-        /*lambda = rate of angular momentum per unit mass by tidal interaction
-         * = sgn(R - Rj)*((0.23((Mj/Ms)^2)*G*Ms)/2R)*(R/|R-Rj|)*/
-        double lambda;
-        int Mj =  1.898e27; //mass of jupiter like planet
-        int M = 1.99e30;
-        int Rj = 7.786e8;
-        int k = radii[0] - Rj;
-        double g = 6.67e-11;}
 
-//change all units to be in AU EVERYTHING not just the orbital radii
-//change masses to Msun (so star is just 1)
-        //grav const defined as 1
-        //
+
 
         // fdens = (3*visc/R)*d/dr(temp)
         fdens[0] = (3.0*visc/radii[0])*(temp[1] - temp[0])/(radii[1] - radii[0]);
@@ -53,6 +43,17 @@ using namespace std;
         fdens[N - 1] = (3.0*visc/radii[N - 1])*(temp[N - 1] - temp[N - 2])/
                        (radii[N - 1] - radii[N - 2]);
     }
+        /*lambda = rate of angular momentum per unit mass by tidal interaction
+        * = ((R - Rj)/0.05Rj)*((0.23((Mj/Ms)^2)*G*Ms)/2R)*(R/|R-Rj|)
+        * define lambda function here*/
+
+
+        double Mj =  9.5376e-4; //mass of jupiter like planet in Msun
+        int M = 1;//mass of sun in Msun
+        double Rj = 5.225e-3;//rad in AU
+        double k = radii[0] - Rj;
+        double g = 1;}//g is defined as 1
+        lambda [0] =
 
 //#############################################################################
 // Do one time step using Euler method
