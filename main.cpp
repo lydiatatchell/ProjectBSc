@@ -31,21 +31,15 @@ using namespace std;
                 (radii[N - 1] - radii[N - 2]);
 
         /*lambda = rate of angular momentum per unit mass by tidal interaction
-         * = sgn(R - Rj)*((0.23((Mj/M)^2)*G*M)/2R)*(R/|R-Rj|)*/
+         * = sgn(R - Rj)*((0.23((Mj/Ms)^2)*G*Ms)/2R)*(R/|R-Rj|)*/
         double lambda;
         int Mj =  1.898e27; //mass of jupiter like planet
-        int M = 1.99e29;
+        int M = 1.99e30;
         int Rj = 7.786e8;
         int k = radii[0] - Rj;
         double g = 6.67e-11;
 
-        vector sgn (double k) {
-            if (k<0) return -1;
 
-            if (k>0) return 1; //if k is less than 0, return -1. if not, return 0 or -1
-        }
-        lambda = (sgn(k)*((0.23*((Mj/M)^2)*g*M)/2*radii[0]))*((radii[0])/(radii[0] - Rj));
-        cout << lambda << endl;
 
 
 
