@@ -13,6 +13,7 @@ using namespace std;
                    std::vector<double> fdens,//dSigma (???)
                    std::vector<double> lambda,
                    double visc)//viscosity
+
     {
         size_t N = radii.size();        // Size of vectors
         std::vector<double> temp(N);    // Temporary vector
@@ -43,18 +44,21 @@ using namespace std;
         fdens[N - 1] = (3.0*visc/radii[N - 1])*(temp[N - 1] - temp[N - 2])/
                        (radii[N - 1] - radii[N - 2]);
     }
-        /*lambda = rate of angular momentum per unit mass by tidal interaction
-        * = ((R - Rj)/0.05Rj)*((0.23((Mj/Ms)^2)*G*Ms)/2R)*(R/|R-Rj|)
-        * define lambda function here*/
-
-
         double Mj =  9.5376e-4; //mass of jupiter like planet in Msun
         int M = 1;//mass of sun in Msun
         double Rj = 5.225e-3;//rad in AU
         double k = radii[0] - Rj;
-        double g = 1;}//g is defined as 1
-        lambda [0] =
+        double g = 1;
 
+        /*lambda = rate of angular momentum per unit mass by tidal interaction
+        * = ((R - Rj)/0.05Rj)*((0.23((Mj/Ms)^2)*G*Ms)/2R)*(R/|R-Rj|)
+        * define lambda function here*/
+
+        lambda [0] = (k)/0.05*Rj*((0.23*(pow((Mj/M),2)*g*M))/2*radii[0])*(radii[0]/abs(k));
+        //for (int i = 1; i < N; i++)
+
+
+    }
 //#############################################################################
 // Do one time step using Euler method
 //#############################################################################
@@ -62,11 +66,12 @@ using namespace std;
     void DoTimeStep(std::vector<double> radii,
                     std::vector<double> sdens,
                     std::vector<double> fdens,
+                    std::vector<double> lambda,
                     double dt,
                     double visc)
     {
         // Calculate dSigma/dt
-        CalcFdens(radii, sdens, fdens, visc);
+       // CalcFdens(radii, sdens, fdens, visc);
 
         size_t N = radii.size();
         // Update using Euler's method
@@ -91,6 +96,7 @@ using namespace std;
         std::vector<double> radii(N);   // Vector of radii
         std::vector<double> sdens(N);   // Vector of surface densities
         std::vector<double> fdens(N);   // Vector of dSigma/dt
+        std::vector<double> lambda(N); //vector of lambda
 
         // Fill vector of radii
         for (int i = 0; i < N; i++)
@@ -100,23 +106,28 @@ using namespace std;
         for (int i = 0; i < N; i++)
             sdens[i] = 0.001/sqrt(radii[i]);
 
+        //fill lambda vector
+        for (int i = 0; i <N; i++)
+            lambda [i] = (radii[i] - 5.225e-3)/0.05*5.225e-3*((0.23*(pow((9.5376e-4),2)))/2*radii[i])*(radii[i]/abs(radii[i] - 5.225e-3));
+
+
+        //fill vector of fdens
+        for (int i=0; i< N; i++)
+            fdens[i] = (1/radii[i])*radii[1]*(3*sqrt(radii[i])*radii[1]*(visc*sdens[i]*sqrt(radii[i])) - (2*lambda[i]*sdens[i]*radii[i]));
+
+
         // Take time steps until t = maxT
         double t = 0.0;
         while (t < maxT) {
-            DoTimeStep(radii, sdens, fdens, dt, visc);
+            DoTimeStep(radii, sdens, fdens, lambda, dt, visc);
             t += dt;
         }
-
-    while (t < maxT) {
-        CalcFdens(radii, sdens, fdens, visc);
-        N += 1;
-    }
 
 
         // Output result to text file
         std::ofstream output_file("./output.txt");
         for (int i = 0; i < N; i++)
-            output_file << radii[i] << " " << sdens[i] << " " << CalcFdens << std::endl;
+            output_file << radii[i] << " " << sdens[i] << " " << fdens[i] << " " << lambda[i] << std::endl;
         output_file.close(); //outputs radius of disc and surface area to text file
 
 
