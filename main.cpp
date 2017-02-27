@@ -11,8 +11,8 @@ using namespace std;
     void CalcFdens(std::vector<double> radii,//R
                    std::vector<double> sdens,//sigma
                    std::vector<double> fdens,//dSigma (???)
-                   std::vector<double> lambda,
-                   double visc)//viscosity
+                   double visc,
+                   std::vector<double> lambda) //viscosity
 
     {
         size_t N = radii.size();        // Size of vectors
@@ -74,7 +74,7 @@ using namespace std;
                     double visc)
     {
         // Calculate dSigma/dt
-       // CalcFdens(radii, sdens, fdens, visc, lambda);
+       CalcFdens(radii, sdens, fdens, visc, lambda);
 
         size_t N = radii.size();
         // Update using Euler's method
@@ -139,4 +139,7 @@ using namespace std;
 
 
         return 0;
-    }
+    } //need to make a plot of surface density vs radius, output to file
+//python to read file into graph?
+//mathplot lib
+//play around with radial location - put close enough together that gaps start to overlap
