@@ -34,7 +34,7 @@ using namespace std;
 
         double Mj =  9.5376e-4; //mass of jupiter like planet in Msun
         int M = 1;//mass of sun in Msun
-        double Rj = 5.225e-3;//rad in AU
+        double Rj = 1;//rad in AU
         double k = radii[0] - Rj;
         double g = 1;
         double q = Mj/M;
@@ -43,7 +43,7 @@ using namespace std;
         * = ((R - Rj)/0.05R)*((0.23((Mj/Ms)^2)*G*Ms)/2R)*(R/|R-Rj|)
         * define lambda function here*/
 
-        lambda [0] = ((k)/0.05*radii[0])*((0.23*(pow(q,2)*g*M))/2*radii[0])*(pow,((radii[0]/abs(k),4)));
+        lambda [0] = ((k)/0.05)*((0.23*(pow(q,2)*g*M))/2*radii[0])*(pow((radii[0]/abs(k)),4));
         //for (int i = 1; i < N; i++)
 
         {
@@ -85,6 +85,9 @@ using namespace std;
 
 //#############################################################################
 // Main function
+
+
+
 //#############################################################################
 
     int main()
