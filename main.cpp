@@ -147,9 +147,8 @@ using namespace std;
         // Output result to text file
         std::ofstream output_file("./output.txt");
         for (int i = 0; i < N; i++)
-            output_file << radii[i] << " " << sdens[i] << " " << fdens[i] << " " << lambda[i] << std::endl;
+            output_file << radii[i] << " " << sdens[i] << " " << fdens[i] << " " << lambda[i] << " " << lambda2[i] << std::endl;
         output_file.close(); //outputs radius of disc and surface area to text file
-
 
 
         return 0;
