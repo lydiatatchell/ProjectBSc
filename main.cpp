@@ -32,30 +32,33 @@ using namespace std;
                                     sdens[N - 2]*sqrt(radii[N - 2]))/
                 (radii[N - 1] - radii[N - 2]);
 
-        {
-
-
-
-        // fdens = (3*visc/R)*d/dr(temp)
-        fdens[0] = (3.0*visc/radii[0])*(temp[1] - temp[0])/(radii[1] - radii[0]);
-        for (int i = 1; i < N - 1; i++)
-            fdens[i] = (3.0*visc/radii[i])*(temp[i + 1] - temp[i - 1])/
-                       (radii[i + 1] - radii[i - 1]);
-        fdens[N - 1] = (3.0*visc/radii[N - 1])*(temp[N - 1] - temp[N - 2])/
-                       (radii[N - 1] - radii[N - 2]);
-    }
         double Mj =  9.5376e-4; //mass of jupiter like planet in Msun
         int M = 1;//mass of sun in Msun
         double Rj = 5.225e-3;//rad in AU
         double k = radii[0] - Rj;
         double g = 1;
+        double q = Mj/M;
 
         /*lambda = rate of angular momentum per unit mass by tidal interaction
-        * = ((R - Rj)/0.05Rj)*((0.23((Mj/Ms)^2)*G*Ms)/2R)*(R/|R-Rj|)
+        * = ((R - Rj)/0.05R)*((0.23((Mj/Ms)^2)*G*Ms)/2R)*(R/|R-Rj|)
         * define lambda function here*/
 
-        lambda [0] = (k)/0.05*Rj*((0.23*(pow((Mj/M),2)*g*M))/2*radii[0])*(radii[0]/abs(k));
+        lambda [0] = ((k)/0.05*radii[0])*((0.23*(pow(q,2)*g*M))/2*radii[0])*(pow,((radii[0]/abs(k),4)));
         //for (int i = 1; i < N; i++)
+
+        {
+
+
+
+        // fdens = (3*visc/R)*d/dr(temp) + lambda
+        fdens[0] = (3.0*visc/radii[0])*(temp[1] - temp[0])/(radii[1] - radii[0]) + lambda[0];
+        for (int i = 1; i < N - 1; i++)
+            fdens[i] = (3.0*visc/radii[i])*(temp[i + 1] - temp[i - 1]) + lambda[i]/
+                       (radii[i + 1] - radii[i - 1]);
+        fdens[N - 1] = (3.0*visc/radii[N - 1])*(temp[N - 1] - temp[N - 2]) +lambda [N - 1]/
+                       (radii[N - 1] - radii[N - 2]);
+    }
+
 
 
     }
@@ -71,7 +74,7 @@ using namespace std;
                     double visc)
     {
         // Calculate dSigma/dt
-       // CalcFdens(radii, sdens, fdens, visc);
+       // CalcFdens(radii, sdens, fdens, visc, lambda);
 
         size_t N = radii.size();
         // Update using Euler's method
