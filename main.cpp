@@ -35,7 +35,7 @@ using namespace std;
 
         double Mj =  9.5376e-4; //mass of jupiter like planet in Msun
         int M = 1;//mass of sun in Msun
-        double Ms = Mj/3;
+        double Ms = 2.858860e-4;
         double Rj = 1;//rad in AU
         double Rs = 1.3;
         double k = radii[0] - Rj;
