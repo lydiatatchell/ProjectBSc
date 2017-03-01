@@ -4,8 +4,10 @@
 #include <fstream>
 #include <cmath>
 #include <cstdlib>
+#include <iomanip>
 
 using namespace std;
+
 
 
     void CalcFdens(std::vector<double> radii,//R
@@ -51,18 +53,18 @@ using namespace std;
         lambda [0] = ((k)/0.05)*((0.23*(pow(q,2)*g*M))/2*radii[0])*(pow((radii[0]/abs(k)),4));
         //for (int i = 1; i < N; i++)
 
-        lambda2 [0] = ((m)/0.5)*((0.23*pow(r,2)*g*M))/2*radii[0]*(pow((radii[0]/abs(m)),4));
+        lambda2 [0] = ((m)/(0.5*Rs))*((0.23*pow(r,2)*g*M))/2*radii[0]*(pow((radii[0]/abs(m)),4));
 
         {
 
 
 
-        // fdens = (3*visc/R)*d/dr(temp) + lambda
-        fdens[0] = (3.0*visc/radii[0])*(temp[1] - temp[0])/(radii[1] - radii[0]) + lambda[0];
+        // fdens = (3*visc/R)*d/dr(temp) + lambda + lambda2
+        fdens[0] = (3.0*visc/radii[0])*(temp[1] - temp[0])/(radii[1] - radii[0]) + lambda[0] + lambda2[0];
         for (int i = 1; i < N - 1; i++)
-            fdens[i] = (3.0*visc/radii[i])*(temp[i + 1] - temp[i - 1]) + lambda[i]/
+            fdens[i] = (3.0*visc/radii[i])*(temp[i + 1] - temp[i - 1]) + lambda[i] + lambda2[i]/
                        (radii[i + 1] - radii[i - 1]);
-        fdens[N - 1] = (3.0*visc/radii[N - 1])*(temp[N - 1] - temp[N - 2]) +lambda [N - 1]/
+        fdens[N - 1] = (3.0*visc/radii[N - 1])*(temp[N - 1] - temp[N - 2]) +lambda [N - 1] + lambda2[N-1]/
                        (radii[N - 1] - radii[N - 2]);
     }
 
@@ -147,7 +149,7 @@ using namespace std;
         // Output result to text file
         std::ofstream output_file("./output.txt");
         for (int i = 0; i < N; i++)
-            output_file << radii[i] << " " << sdens[i] << " " << fdens[i] << " " << lambda[i] << " " << lambda2[i] << std::endl;
+            output_file << std::fixed << std::setprecision(20) << fdens[i] << " " << radii[i] << std::endl; //<< sdens[i] << " " << lambda[i] << " " << lambda2[i] << std::endl;
         output_file.close(); //outputs radius of disc and surface area to text file
 
 
@@ -156,5 +158,5 @@ using namespace std;
 //python to read file into graph?
 //mathplot lib
 //play around with radial location - put close enough together that gaps start to overlap
-//need to add the next planet, play around with radius
+
 //use integral (add fdens)
