@@ -59,8 +59,8 @@ using namespace std;
 
 
 
-        // fdens = (3*visc/R)*d/dr(temp) + lambda + lambda2
-        fdens[0] = (3.0*visc/radii[0])*(temp[1] - temp[0])/(radii[1] - radii[0]) + lambda[0] + lambda2[0];
+        // fdens = (3*visc/R)*d/dr(temp + lambda + lambda2)
+        fdens[0] = (3.0*visc/radii[0])*((temp[1] - temp[0])/(radii[1] - radii[0]) - lambda[0] - lambda2[0]);
         for (int i = 1; i < N - 1; i++)
             fdens[i] = (3.0*visc/radii[i])*(temp[i + 1] - temp[i - 1]) + lambda[i] + lambda2[i]/
                        (radii[i + 1] - radii[i - 1]);
@@ -108,6 +108,14 @@ using namespace std;
         double visc = 1.0e-5; // Viscosity
         double maxT = 100.0;  // Maximum simulation time
         double dt = 0.01;     // Time step
+        double Mj =  9.5376e-4; //mass of jupiter like planet in Msun
+        int M = 1;//mass of sun in Msun
+        double Ms = 2.858860e-4;
+        double Rj = 1;//rad in AU
+        double Rs = 1.3;
+        double g = 1;
+        double q = Mj/M;
+        double r = Ms/M;
 
         std::vector<double> radii(N);   // Vector of radii
         std::vector<double> sdens(N);   // Vector of surface densities
@@ -125,11 +133,11 @@ using namespace std;
 
         //fill lambda vector
         for (int i = 0; i <N; i++)
-            lambda [i] = (radii[i] - 1)/0.05*((0.23*(pow((9.5376e-4),2)))/2*radii[i])*(radii[i]/abs(radii[i] -1));
+            lambda [i] = ((radii[i] - Rj)/0.05)*((0.23*(pow((q),2)))/2*radii[i])*(pow(radii[i]/abs(radii[i] -Rj),4));
 
         //fill lambda2
         for(int i = 0; i <N; i++)
-            lambda2 [i] = (radii[i] - 1.3)/0.05*1.3*((0.23*(pow((9.5376e-4/3),2)))/2*radii[i])*(radii[i]/abs(radii[i] - 1.3));
+            lambda2 [i] = ((radii[i] - Rs)/0.05*Rs)*(0.23*(pow(r,2))/2*radii[i])*(pow(radii[i]/abs(radii[i] - Rs),4));
 
 
 
