@@ -21,20 +21,6 @@ using namespace std;
         size_t N = radii.size();        // Size of vectors
         std::vector<double> temp(N);    // Temporary vector
 
-        //temp = sqrt(R)*d/dr(Sigma*sqrt(R))
-        temp[0] =
-                sqrt(radii[0])*(sdens[1]*sqrt(radii[1]) - sdens[0]*sqrt(radii[0]))/
-                (radii[1] - radii[0]);
-        for (int i = 1; i < N - 1; i++)
-            temp[i] =
-                    sqrt(radii[i])*(sdens[i + 1]*sqrt(radii[i + 1]) -
-                                    sdens[i - 1]*sqrt(radii[i - 1]))/
-                    (radii[i + 1] - radii[i - 1]);
-        temp[N - 1] =
-                sqrt(radii[N - 1])*(sdens[N - 1]*sqrt(radii[N - 1]) -
-                                    sdens[N - 2]*sqrt(radii[N - 2]))/
-                (radii[N - 1] - radii[N - 2]);
-
         double Mj =  9.5376e-4; //mass of jupiter like planet in Msun
         int M = 1;//mass of sun in Msun
         double Ms = 2.858860e-4;
@@ -50,22 +36,38 @@ using namespace std;
         * = ((R - Rj)/0.05R)*((0.23((Mj/Ms)^2)*G*Ms)/2R)*(R/|R-Rj|)
         * define lambda function here*/
 
-        lambda [0] = ((k)/0.05)*((0.23*(pow(q,2)*g*M))/2*radii[0])*(pow((radii[0]/abs(k)),4));
+        lambda [0] = ((k)/0.058*Rj)*((0.23*(pow(q,2)*g*M))/2*radii[0])*(pow((radii[0]/abs(k)),4));
         //for (int i = 1; i < N; i++)
 
         lambda2 [0] = ((m)/(0.5*Rs))*((0.23*pow(r,2)*g*M))/2*radii[0]*(pow((radii[0]/abs(m)),4));
+
+        //temp = sqrt(R)*d/dr(Sigma*sqrt(R))
+        temp[0] =
+                sqrt(radii[0])*(sdens[1]*sqrt(radii[1]) - sdens[0]*sqrt(radii[0]))/
+                (radii[1] - radii[0]);
+        for (int i = 1; i < N - 1; i++)
+            temp[i] =
+                    sqrt(radii[i])*(sdens[i + 1]*sqrt(radii[i + 1]) -
+                                    sdens[i - 1]*sqrt(radii[i - 1]))/
+                    (radii[i + 1] - radii[i - 1]);
+        temp[N - 1] =
+                sqrt(radii[N - 1])*(sdens[N - 1]*sqrt(radii[N - 1]) -
+                                    sdens[N - 2]*sqrt(radii[N - 2]))/
+                (radii[N - 1] - radii[N - 2]);
+
+
 
         {
 
 
 
         // fdens = (3*visc/R)*d/dr(temp + lambda + lambda2)
-        fdens[0] = (3.0*visc/radii[0])*((temp[1] - temp[0])/(radii[1] - radii[0]) - lambda[0] - lambda2[0]);
+        fdens[0] = (3.0*visc/radii[0])*((temp[1] - temp[0])/(radii[1] - radii[0]) - (2*sdens[0]*pow((radii[0]),(3/2))*lambda[0]) - ((2*sdens[0]*pow((radii[0]),(3/2))*lambda2[0])));
         for (int i = 1; i < N - 1; i++)
-            fdens[i] = (3.0*visc/radii[i])*(temp[i + 1] - temp[i - 1]) + lambda[i] + lambda2[i]/
-                       (radii[i + 1] - radii[i - 1]);
-        fdens[N - 1] = (3.0*visc/radii[N - 1])*(temp[N - 1] - temp[N - 2]) +lambda [N - 1] + lambda2[N-1]/
-                       (radii[N - 1] - radii[N - 2]);
+            fdens[i] = (3.0*visc/radii[i])*((temp[i + 1] - temp[i - 1]) - (2*sdens[0]*pow((radii[0]),(3/2))*lambda[i]) - ((2*sdens[0]*pow((radii[0]),(3/2))*lambda2[i]))/
+                       (radii[i + 1] - radii[i - 1]));
+        fdens[N - 1] = (3.0*visc/radii[N - 1])*((temp[N - 1] - temp[N - 2]) - (2*sdens[0]*pow((radii[0]),(3/2))*lambda [N - 1]) - ((2*sdens[0]*pow((radii[0]),(3/2))*lambda2[N-1]))/
+                       (radii[N - 1] - radii[N - 2]));
     }
 
 
@@ -143,7 +145,7 @@ using namespace std;
 
         //fill vector of fdens
         for (int i=0; i< N; i++)
-            fdens[i] = (1/radii[i])*radii[1]*(3*sqrt(radii[i])*radii[1]*(visc*sdens[i]*sqrt(radii[i])) - (2*lambda[i]*sdens[i]*radii[i]) - (2*lambda2[i]*sdens[i]*radii[i]));
+            fdens[i] = (1/radii[i])*radii[1]*(3*sqrt(radii[i])*radii[1]*(visc*sdens[i]*sqrt(radii[i])) - (2*lambda[i]*sdens[i]*pow((radii[i]),(3/2)) - (2*lambda2[i]*sdens[i]*((pow((radii[i]),(3/2)))/pow(Ms,(1/2))))));
 
 
         // Take time steps until t = maxT
@@ -168,3 +170,4 @@ using namespace std;
 //play around with radial location - put close enough together that gaps start to overlap
 
 //use integral (add fdens)
+//H could be 0.1Rp?
