@@ -62,11 +62,11 @@ using namespace std;
 
 
         // fdens = (3*visc/R)*d/dr(temp + lambda + lambda2)
-        fdens[0] = (3.0*visc/radii[0])*((temp[1] - temp[0])/(radii[1] - radii[0]) - (2*sdens[0]*pow((radii[0]),(3/2))*lambda[0]) - ((2*sdens[0]*pow((radii[0]),(3/2))*lambda2[0])));
+        fdens[0] = (3.0*visc/radii[0])*((temp[1] - temp[0])/(radii[1] - radii[0]) - ((2*sdens[0]*pow((radii[0]),(3/2))*lambda[0])/visc) - ((2*sdens[0]*pow((radii[0]),(3/2))*lambda2[0])/visc));
         for (int i = 1; i < N - 1; i++)
-            fdens[i] = (3.0*visc/radii[i])*((temp[i + 1] - temp[i - 1]) - (2*sdens[0]*pow((radii[0]),(3/2))*lambda[i]) - ((2*sdens[0]*pow((radii[0]),(3/2))*lambda2[i]))/
+            fdens[i] = (3.0*visc/radii[i])*((temp[i + 1] - temp[i - 1]) - ((2*sdens[0]*pow((radii[0]),(3/2))*lambda[i])/visc) - ((2*sdens[0]*pow((radii[0]),(3/2))*lambda2[i])/visc)/
                        (radii[i + 1] - radii[i - 1]));
-        fdens[N - 1] = (3.0*visc/radii[N - 1])*((temp[N - 1] - temp[N - 2]) - (2*sdens[0]*pow((radii[0]),(3/2))*lambda [N - 1]) - ((2*sdens[0]*pow((radii[0]),(3/2))*lambda2[N-1]))/
+        fdens[N - 1] = (3.0*visc/radii[N - 1])*((temp[N - 1] - temp[N - 2]) - ((2*sdens[0]*pow((radii[0]),(3/2))*lambda [N - 1])/visc) - ((2*sdens[0]*pow((radii[0]),(3/2))*lambda2[N-1])/visc)/
                        (radii[N - 1] - radii[N - 2]));
     }
 
