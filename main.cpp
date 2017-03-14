@@ -39,7 +39,7 @@ double Lambda(double radius, double radiusPlanet,
 
     void CalcFdens(std::vector<double> radii,//R
                    std::vector<double> sdens,//sigma
-                   std::vector<double> fdens,//dSigma (???)
+                   std::vector<double> &fdens,//dSigma (???)
                    std::vector<double> lambda,
                    std::vector<double> lambda2,
                    double visc)
@@ -140,7 +140,7 @@ double Lambda(double radius, double radiusPlanet,
                     double visc)
     {
         // Calculate dSigma/dt
-       CalcFdens(radii, sdens, fdens, visc, lambda, lambda2);
+        CalcFdens(radii, sdens, fdens, lambda, lambda2, visc);
 
         size_t N = radii.size();
         // Update using Euler's method
@@ -163,14 +163,15 @@ double Lambda(double radius, double radiusPlanet,
         double rMax = 2.5;    // Outer radius
         double visc = 1.0e-5; // Viscosity
         double maxT = 100.0;  // Maximum simulation time
-        double dt = 0.01;     // Time step
+        double dt = 0.05;     // Time step
+        double q1 =0.0005;// mass ratio jupiter
+        double q2 = 0.0001;//mass ratio saturn
         double Rj = 1;//rad in AU
-        double Rs = 1.3;
-        double q =0.0005;// mass ratio jupiter
-        double r = 0.0001;//mass ratio saturn
+        double Rs = 1.15;
+
 
         double dr = (rMax - rMin)/(double) N;
-        double qmax = std::max(q, r);
+        double qmax = std::max(q1, q2);
         dt = 0.5*std::min(dr*dr/visc, dr/(0.0736*qmax*qmax/(0.001*0.001)));
 
         std::vector<double> radii(N);   // Vector of radii
@@ -189,8 +190,8 @@ double Lambda(double radius, double radiusPlanet,
 
         // Fill lambda vector
         for (int i = 0; i < N; i++) {
-            lambda[i] = Lambda(radii[i], Rj, q, 0.05);
-            lambda2[i] = Lambda(radii[i], Rs, r, 0.05); }
+            lambda[i] = Lambda(radii[i], Rj, q1, 0.05);
+            lambda2[i] = Lambda(radii[i], Rs, q2, 0.05); }
 
         std::ofstream output_torque("./torque.txt");
 
