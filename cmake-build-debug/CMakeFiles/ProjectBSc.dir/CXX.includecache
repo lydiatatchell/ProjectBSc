@@ -6,23 +6,13 @@
 
 #IncludeRegexTransform: 
 
-C:/Users/lydia/Desktop/ProjectBSc/constants.h
-cmath
--
-
 C:/Users/lydia/Desktop/ProjectBSc/main.cpp
 iostream
 -
-constants.h
-C:/Users/lydia/Desktop/ProjectBSc/constants.h
 vector
 -
 fstream
 -
 cmath
--
-cstdlib
--
-iomanip
 -
 
