@@ -105,28 +105,6 @@ double Lambda(double radius, double radiusPlanet,
                         (radii[N - 1] - radii[N - 2]);
 
     }
-
-       /* double Mj =  9.5376e-4; //mass of jupiter like planet in Msun
-        int M = 1;//mass of sun in Msun
-        double Ms = 2.858860e-4;
-        double Rj = 1;//rad in AU
-        double Rs = 1.3;
-        double k = radii[0] - Rj;
-        double m = radii[0] - Rs;
-        double g = 1;
-        double q = Mj/M;
-        double r = Ms/M;
-
-        /*lambda = rate of angular momentum per unit mass by tidal interaction
-        * = ((R - Rj)/0.05R)*((0.23((Mj/Ms)^2)*G*Ms)/2R)*(R/|R-Rj|)
-        * define lambda function here
-
-        lambda [0] = ((k)/0.058*Rj)*((0.23*(pow(q,2)*g*M))/2*radii[0])*(pow((radii[0]/abs(k)),4));
-        //for (int i = 1; i < N; i++)
-
-        lambda2 [0] = ((m)/(0.5*Rs))*((0.23*pow(r,2)*g*M))/2*radii[0]*(pow((radii[0]/abs(m)),4));
-
-    }*/
 //#############################################################################
 // Do one time step using Euler method
 //#############################################################################
@@ -151,9 +129,6 @@ double Lambda(double radius, double radiusPlanet,
 
 //#############################################################################
 // Main function
-
-
-
 //#############################################################################
 
     int main()
@@ -216,10 +191,4 @@ double Lambda(double radius, double radiusPlanet,
         output_file.close();
 
         return 0;
-    } //need to make a plot of surface density vs radius, output to file
-//python to read file into graph?
-//mathplot lib
-//play around with radial location - put close enough together that gaps start to overlap
-
-//use integral (add fdens)
-//H could be 0.1Rp?
+    }
